@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/gorilla/mux v1.8.0
+	github.com/haxqer/vast v0.0.0-20220726014210-128aa4704401
 	github.com/ilyakaznacheev/cleanenv v1.3.0
 	github.com/mxmCherry/openrtb/v16 v16.0.0
 )

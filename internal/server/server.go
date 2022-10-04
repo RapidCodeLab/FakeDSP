@@ -18,6 +18,14 @@ type ErrorResponse struct {
 	Error  string
 }
 
+type AdsDB interface {
+	GetSeat(seatID int) string
+	GetNative(seatID, itemID int) string
+	GetBanner(seatID, itemID int) string
+	GetVideo(seatID, itemID int) string
+	GetAudio(seatID, itemID int) string
+}
+
 type Logger interface{}
 
 type Config interface {
@@ -29,12 +37,14 @@ type server struct {
 	logger Logger
 	config Config
 	http   *http.Server
+	adsDB  AdsDB
 }
 
-func New(l Logger, c Config) *server {
+func New(l Logger, c Config, db AdsDB) *server {
 	return &server{
 		logger: l,
 		config: c,
+		adsDB:  db,
 	}
 }
 
@@ -42,7 +52,9 @@ func (s *server) Start() error {
 
 	r := mux.NewRouter()
 
-	r.HandleFunc(nativePath, NativeHandler).
+	r.HandleFunc(nativePath, func(w http.ResponseWriter, r *http.Request) {
+		NativeHandler(w, r, s.adsDB)
+	}).
 		Methods(http.MethodPost)
 
 	r.Use(rtb_validator_middlewears.ValidateOpenRTBBidRequestMiddleware)

@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/RapidCodeLab/fakedsp/internal/server"
+	"github.com/RapidCodeLab/fakedsp/pkg/ads_db"
 	"github.com/RapidCodeLab/fakedsp/pkg/config"
 )
 
@@ -13,7 +14,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	s := server.New(nil, cfg)
+
+	adsDB, err := ads_db.New("./ads.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	s := server.New(nil, cfg, adsDB)
 
 	err = s.Start()
 	if err != nil {

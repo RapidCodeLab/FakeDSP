@@ -13,7 +13,10 @@ func TestNativeHandlerResponseOK(t *testing.T) {
 	}
 
 	res := httptest.NewRecorder()
-	handler := http.HandlerFunc(NativeHandler)
+	handler := http.HandlerFunc(
+		func(w http.ResponseWriter, r *http.Request) {
+			NativeHandler(w, r, nil)
+		})
 	handler.ServeHTTP(res, req)
 
 	if status := res.Code; status != http.StatusOK {

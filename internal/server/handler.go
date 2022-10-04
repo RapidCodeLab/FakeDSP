@@ -9,7 +9,7 @@ import (
 	"github.com/mxmCherry/openrtb/v16/openrtb2"
 )
 
-func NativeHandler(w http.ResponseWriter, r *http.Request) {
+func NativeHandler(w http.ResponseWriter, r *http.Request, ads AdsDB) {
 
 	if r.Context().Value(rtb_validator_middlewears.BidRequestContextKey) == nil &&
 		r.Context().Value(rtb_validator_middlewears.BidRequestContextErrorKey) != nil {
@@ -47,25 +47,32 @@ func NativeHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if v.Banner != nil {
+			a := ads.GetBanner(0, i)
 			bid := openrtb2.Bid{
 				ImpID: v.ID,
 				MType: openrtb2.MarkupBanner,
+				AdM:   a,
 			}
 			bids = append(bids, bid)
 		}
 
 		if v.Native != nil {
+			a := ads.GetNative(0, i)
 			bid := openrtb2.Bid{
 				ImpID: v.ID,
 				MType: openrtb2.MarkupNative,
+				AdM:   a,
 			}
 			bids = append(bids, bid)
 		}
 
 		if v.Video != nil {
+			vast := ads.GetVideo(0, i)
+
 			bid := openrtb2.Bid{
 				ImpID: v.ID,
 				MType: openrtb2.MarkupVideo,
+				AdM:   vast,
 			}
 			bids = append(bids, bid)
 		}
@@ -79,13 +86,33 @@ func NativeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	seatBid := openrtb2.SeatBid{
-		Seat: "agency",
+		Seat: ads.GetSeat(0),
 		Bid:  bids,
 	}
 
 	seatBids = append(seatBids, seatBid)
 
-	fmt.Printf("Bids: %+v", seatBids)
+	br := openrtb2.BidResponse{}
+	br.ID = val.ID
+	br.SeatBid = seatBids
+
+	brJSON, err := json.Marshal(br)
+	if err != nil {
+		errorMsg := ErrorResponse{
+			Status: http.StatusBadRequest,
+			Error:  "unexpected jsom error",
+		}
+		errorMsgJSON, err := json.Marshal(errorMsg)
+		if err != nil {
+			fmt.Printf("error marshaling errorMsg: %+v", err)
+		}
+
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write(errorMsgJSON)
+		return
+	}
 
 	w.WriteHeader(http.StatusOK)
+	w.Write(brJSON)
+
 }
