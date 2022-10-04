@@ -1,5 +1,7 @@
 # Fake OpenRTB DSP Server
 
+![Docker Image Version (latest by date)](https://img.shields.io/docker/v/rapidcodelab/fakedsp?style=flat-square)
+
 ## OpenRTB 2.6 & OpenRTB Native Ads Specification 1.2
 
 ### Фейковая DSP(Demand Side Platform) для валидации OpenRTB BidRequest запросов форматов Native, Banner, Video, Audio с отдачей валидных OpenRTB BidResponse ответов. 
