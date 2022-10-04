@@ -1,5 +1,5 @@
 # Fake OpenRTB DSP Server
-![Github CI/CD](https://img.shields.io/github/workflow/status/RapidCodeLab/fakedsp/Deploy Docker image to Docker Hub?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/RapidCodeLab/fakedsp/Deploy%20Docker%20image%20to%20Docker%20Hub?style=flat-square)
 ![Docker Image Version (latest by date)](https://img.shields.io/docker/v/rapidcodelab/fakedsp?style=flat-square)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/rapidcodelab/fakedsp/latest?style=flat-square)
 [![GitHub license](https://img.shields.io/github/license/RapidCodeLab/fakedsp?style=flat-square)](https://github.com/RapidCodeLab/fakedsp/blob/main/LICENSE)
