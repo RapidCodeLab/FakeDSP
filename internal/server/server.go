@@ -10,7 +10,7 @@ import (
 
 const (
 	nativePath      = "/openrtb"
-	impObjectsLimit = 5 // Imp objects annount limit
+	impObjectsLimit = 5 // Imp objects ammount limit
 )
 
 type ErrorResponse struct {
@@ -31,6 +31,7 @@ type Logger interface{}
 type Config interface {
 	GetListenAddr() string
 	GetListenNetwork() string
+	GetAdsDatabasePath() string
 }
 
 type server struct {

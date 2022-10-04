@@ -15,7 +15,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	adsDB, err := ads_db.New("./ads.json")
+	adsDB, err := ads_db.New(cfg.GetAdsDatabasePath())
 	if err != nil {
 		log.Fatal(err)
 	}
