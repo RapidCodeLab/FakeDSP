@@ -4,6 +4,7 @@
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/rapidcodelab/fakedsp/latest?style=flat-square)
 [![GitHub license](https://img.shields.io/github/license/RapidCodeLab/fakedsp?style=flat-square)](https://github.com/RapidCodeLab/fakedsp/blob/main/LICENSE)
 ![GitHub top language](https://img.shields.io/github/languages/top/RapidCodeLab/fakedsp?style=flat-square)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/RapidCodeLab/fakedsp?style=flat-square)
 ![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/quality/g/RapidCodeLab/fakedsp/main?style=flat-square)
 
 ## OpenRTB 2.6 & OpenRTB Native Ads Specification 1.2
