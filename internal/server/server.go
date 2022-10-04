@@ -1,6 +1,7 @@
 package server
 
 import (
+	"math/rand"
 	"net"
 	"net/http"
 
@@ -71,4 +72,8 @@ func (s *server) Start() error {
 
 	return s.http.Serve(l)
 
+}
+
+func randomPrice() float64 {
+	return 0.5 + rand.Float64()*(1.5-0.5)
 }

@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	rtb_validator_middlewears "github.com/RapidCodeLab/fakedsp/pkg/rtb-validator-middlewears"
+	"github.com/google/uuid"
 	"github.com/mxmCherry/openrtb/v16/openrtb2"
 )
 
@@ -49,9 +50,11 @@ func NativeHandler(w http.ResponseWriter, r *http.Request, ads AdsDB) {
 		if v.Banner != nil {
 			a := ads.GetBanner(0, i)
 			bid := openrtb2.Bid{
+				ID:    uuid.NewString(),
 				ImpID: v.ID,
 				MType: openrtb2.MarkupBanner,
 				AdM:   a,
+				Price: randomPrice(),
 			}
 			bids = append(bids, bid)
 		}
@@ -59,9 +62,11 @@ func NativeHandler(w http.ResponseWriter, r *http.Request, ads AdsDB) {
 		if v.Native != nil {
 			a := ads.GetNative(0, i)
 			bid := openrtb2.Bid{
+				ID:    uuid.NewString(),
 				ImpID: v.ID,
 				MType: openrtb2.MarkupNative,
 				AdM:   a,
+				Price: randomPrice(),
 			}
 			bids = append(bids, bid)
 		}
@@ -70,16 +75,21 @@ func NativeHandler(w http.ResponseWriter, r *http.Request, ads AdsDB) {
 			vast := ads.GetVideo(0, i)
 
 			bid := openrtb2.Bid{
+				ID:    uuid.NewString(),
 				ImpID: v.ID,
 				MType: openrtb2.MarkupVideo,
 				AdM:   vast,
+				Price: randomPrice(),
 			}
 			bids = append(bids, bid)
 		}
+
 		if v.Audio != nil {
 			bid := openrtb2.Bid{
+				ID:    uuid.NewString(),
 				ImpID: v.ID,
 				MType: openrtb2.MarkupAudio,
+				Price: randomPrice(),
 			}
 			bids = append(bids, bid)
 		}
