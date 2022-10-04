@@ -1,0 +1,12 @@
+name: Deploy Docker image to Docker Hub
+on:
+  push:
+    tags:
+      - 'v[12].[0-9]+.[0-9]+'
+
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+    
