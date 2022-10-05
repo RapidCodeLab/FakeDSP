@@ -2,9 +2,10 @@ module github.com/RapidCodeLab/fakedsp
 
 go 1.19
 
-
 replace github.com/RapidCodeLab/fakedsp/internal/server => ./internal/server
+
 replace github.com/RapidCodeLab/fakedsp/pkg/ads_db => ./pkg/ads_db
+
 replace github.com/RapidCodeLab/fakedsp/pkg/config => ./pkg/config
 
 require (
