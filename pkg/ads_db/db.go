@@ -9,7 +9,7 @@ import (
 	"github.com/haxqer/vast"
 )
 
-type adsDB struct {
+type AdsDB struct {
 	seats []seat
 }
 
@@ -42,7 +42,7 @@ type audio struct {
 	URI string
 }
 
-func New(path string) (*adsDB, error) {
+func New(path string) (*AdsDB, error) {
 
 	f, err := os.Open(path)
 	if err != nil {
@@ -61,33 +61,33 @@ func New(path string) (*adsDB, error) {
 		return nil, err
 	}
 
-	return &adsDB{
+	return &AdsDB{
 		seats: v,
 	}, nil
 }
 
-func (db *adsDB) GetSeat(seatID int) string {
+func (db *AdsDB) GetSeat(seatID int) string {
 	return db.seats[seatID].Name
 }
 
-func (db *adsDB) GetNative(seatID, itemID int) string {
+func (db *AdsDB) GetNative(seatID, itemID int) string {
 	a := db.seats[seatID].Natives[itemID]
 	return fmt.Sprintf("<div><a href=\"%s\"><img src=\"%s\"/><br>%s</a><br>%s</div>",
 		a.Link, a.Image, a.Title, a.Text)
 }
 
-func (db *adsDB) GetBanner(seatID, itemID int) string {
+func (db *AdsDB) GetBanner(seatID, itemID int) string {
 	a := db.seats[seatID].Banners[itemID]
 	return fmt.Sprintf("<a href=\"%s\"><img srec=\"%s\"/></a>",
 		a.Link, a.Image)
 
 }
 
-func (db *adsDB) GetVideo(seatID, itemID int) string {
+func (db *AdsDB) GetVideo(seatID, itemID int) string {
 	return prepareVAST(db.seats[seatID].Videos[itemID])
 }
 
-func (db *adsDB) GetAudio(seatID, itemID int) string {
+func (db *AdsDB) GetAudio(seatID, itemID int) string {
 	return ""
 	//return db.seats[seatID].Audios[itemID]
 }
