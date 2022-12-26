@@ -75,24 +75,24 @@ func (db *AdsDB) GetSeat(seatID int) string {
 func (db *AdsDB) GetNative(seatID, itemID int) string {
 	a := db.seats[seatID].Natives[itemID]
 	nativeUnit := response.Response{
-		Version: "1.2",
+		Ver: "1.2",
 		Link: response.Link{
 			URL: a.Link,
 		},
 		Assets: []response.Asset{
 			{
-				Title: response.Title{
+				Title: &response.Title{
 					Text: a.Title,
 				},
 			},
 			{
-				Image: response.Image{
+				Img: &response.Image{
 					URL:  a.Image,
 					Type: native1.ImageAssetTypeMain,
 				},
 			},
 			{
-				Data: response.Data{
+				Data: &response.Data{
 					Value: a.Text,
 					Type:  native1.DataAssetTypeDesc,
 				},
