@@ -18,7 +18,7 @@ type HttpServerConfig struct {
 }
 
 type FilesPathConfig struct {
-	AdsDatabasePath string `env:"ADS_DATABASE_PATH" env-default:"./ads2.json"`
+	AdsDatabasePath string `env:"ADS_DATABASE_PATH" env-default:"./ads.json"`
 }
 
 func (c *HttpServerConfig) GetListenAddr() string {

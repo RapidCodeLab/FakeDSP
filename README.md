@@ -83,21 +83,21 @@ docker run --name fakedsp -p 8080:8080 -v /path/to/local/ads.json:/ads.json -e A
     {
       "bid": [
         {
-          "id": "036881a7-d7cb-47a8-b07e-c9e6110fa4a0",
+          "id": "e93d416d-d401-4fbf-a750-e4ee23718a1a",
           "impid": "1",
           "price": 1.1046602879796197,
           "adm": "<a href=\"https://yandex.ru\"><img srec=\"https://banners.rapidcodelab.repl.co/banners/1.jpg\"/></a>",
           "mtype": 1
         },
         {
-          "id": "80b1b7f4-d1be-4b42-94c7-cd706df46155",
+          "id": "5c2181d1-0fac-45ae-97df-32020febde19",
           "impid": "1",
           "price": 1.4405090880450124,
-          "adm": "<div><a href=\"https://yandex.ru\"><img src=\"https://banners.rapidcodelab.repl.co/banners/1.jpg\"/><br>Wordpress Hosting</a><br>Cheap wordpress hosting at turhost.com</div>",
+          "adm": "{\"ver\":\"1.2\",\"assets\":[{\"title\":{\"text\":\"Wordpress Hosting\"}},{\"img\":{\"type\":3,\"url\":\"https://banners.rapidcodelab.repl.co/banners/1.jpg\"}},{\"data\":{\"type\":2,\"value\":\"Cheap wordpress hosting at turhost.com\"}}],\"link\":{\"url\":\"https://yandex.ru\"}}",
           "mtype": 4
         },
         {
-          "id": "de055180-9335-47b8-b6f3-92bd67531a2a",
+          "id": "6be4d251-2ab0-4c56-b57f-e4da3c4b902c",
           "impid": "2",
           "price": 1.1645600532184903,
           "adm": "<VAST version=\"3.0\"><Ad id=\"123\"><InLine><AdSystem><![CDATA[DSP]]></AdSystem><AdTitle><![CDATA[adTitle]]></AdTitle><Creatives><Creative><Linear><TrackingEvents></TrackingEvents><MediaFiles><MediaFile delivery=\"progressive\" type=\"video/mp4\" width=\"0\" height=\"0\"><![CDATA[https://banners.rapidcodelab.repl.co/media/002.mp4]]></MediaFile></MediaFiles><VideoClicks><ClickThrough id=\"1\"><![CDATA[https://yandex.ru]]></ClickThrough></VideoClicks></Linear></Creative></Creatives></InLine></Ad></VAST>",
