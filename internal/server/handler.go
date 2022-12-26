@@ -26,7 +26,10 @@ func NativeHandler(w http.ResponseWriter, r *http.Request, ads AdsDB) {
 		}
 
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write(errorMsgJSON)
+		_, err = w.Write(errorMsgJSON)
+		if err != nil {
+			fmt.Printf("response write error: %+v", err)
+		}
 		return
 	}
 
@@ -118,11 +121,16 @@ func NativeHandler(w http.ResponseWriter, r *http.Request, ads AdsDB) {
 		}
 
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write(errorMsgJSON)
+		_, err = w.Write(errorMsgJSON)
+		if err != nil {
+			fmt.Printf("response write error: %+v", err)
+		}
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(brJSON)
-
+	_, err = w.Write(brJSON)
+	if err != nil {
+		fmt.Printf("response write error: %+v", err)
+	}
 }

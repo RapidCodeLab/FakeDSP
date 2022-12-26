@@ -14,6 +14,7 @@ require (
 	github.com/haxqer/vast v0.0.0-20220726014210-128aa4704401
 	github.com/ilyakaznacheev/cleanenv v1.3.0
 	github.com/mxmCherry/openrtb/v16 v16.0.0
+	github.com/prebid/openrtb/v17 v17.1.0
 )
 
 require (

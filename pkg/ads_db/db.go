@@ -7,6 +7,8 @@ import (
 	"os"
 
 	"github.com/haxqer/vast"
+	"github.com/prebid/openrtb/v17/native1"
+	"github.com/prebid/openrtb/v17/native1/response"
 )
 
 type AdsDB struct {
@@ -72,8 +74,37 @@ func (db *AdsDB) GetSeat(seatID int) string {
 
 func (db *AdsDB) GetNative(seatID, itemID int) string {
 	a := db.seats[seatID].Natives[itemID]
-	return fmt.Sprintf("<div><a href=\"%s\"><img src=\"%s\"/><br>%s</a><br>%s</div>",
-		a.Link, a.Image, a.Title, a.Text)
+	nativeUnit := response.Response{
+		Version: "1.2",
+		Link: response.Link{
+			URL: a.Link,
+		},
+		Assets: []response.Asset{
+			{
+				Title: response.Title{
+					Text: a.Title,
+				},
+			},
+			{
+				Image: response.Image{
+					URL:  a.Image,
+					Type: native1.ImageAssetTypeMain,
+				},
+			},
+			{
+				Data: response.Data{
+					Value: a.Text,
+					Type:  native1.DataAssetTypeDesc,
+				},
+			},
+		},
+	}
+
+	nativeJSON, err := json.Marshal(nativeUnit)
+	if err != nil {
+		fmt.Printf("marshaling error: %+v", err)
+	}
+	return string(nativeJSON)
 }
 
 func (db *AdsDB) GetBanner(seatID, itemID int) string {
