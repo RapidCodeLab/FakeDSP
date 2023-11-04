@@ -7,11 +7,12 @@ import (
 
 	rtb_validator_middlewears "github.com/RapidCodeLab/fakedsp/pkg/rtb-validator-middlewears"
 	"github.com/google/uuid"
+	"github.com/mxmCherry/openrtb/v16/native1/request"
 	"github.com/mxmCherry/openrtb/v16/openrtb2"
+	"github.com/prebid/openrtb/v17/native1"
 )
 
 func NativeHandler(w http.ResponseWriter, r *http.Request, ads AdsDB) {
-
 	if r.Context().Value(rtb_validator_middlewears.BidRequestContextKey) == nil &&
 		r.Context().Value(rtb_validator_middlewears.BidRequestContextErrorKey) != nil {
 
@@ -37,13 +38,13 @@ func NativeHandler(w http.ResponseWriter, r *http.Request, ads AdsDB) {
 
 	bids := make([]openrtb2.Bid, 0, len(val.Imp)*4)
 
-	//For each seat in demand
+	// For each seat in demand
 
 	seats := 2
 	seatBids := make([]openrtb2.SeatBid, 0, seats)
 
-	//One Bid object for every Native, Banner, Video, Audio object
-	//in every Imp object identified with mtype && impid
+	// One Bid object for every Native, Banner, Video, Audio object
+	// in every Imp object identified with mtype && impid
 	for i, v := range val.Imp {
 
 		if i > impObjectsLimit {
@@ -63,15 +64,23 @@ func NativeHandler(w http.ResponseWriter, r *http.Request, ads AdsDB) {
 		}
 
 		if v.Native != nil {
-			a := ads.GetNative(0, i)
-			bid := openrtb2.Bid{
-				ID:    uuid.NewString(),
-				ImpID: v.ID,
-				MType: openrtb2.MarkupNative,
-				AdM:   a,
-				Price: randomPrice(),
+			native := request.Request{}
+			err := json.Unmarshal([]byte(v.Native.Request), &native)
+			if err != nil {
+				continue
 			}
-			bids = append(bids, bid)
+
+			for idx := 0; idx < int(native.PlcmtCnt); idx++ {
+				a := ads.GetNative(0, idx)
+				bid := openrtb2.Bid{
+					ID:    uuid.NewString(),
+					ImpID: v.ID,
+					MType: openrtb2.MarkupNative,
+					AdM:   a,
+					Price: randomPrice(),
+				}
+				bids = append(bids, bid)
+			}
 		}
 
 		if v.Video != nil {
