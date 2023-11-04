@@ -9,7 +9,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/mxmCherry/openrtb/v16/native1/request"
 	"github.com/mxmCherry/openrtb/v16/openrtb2"
-	"github.com/prebid/openrtb/v17/native1"
 )
 
 func NativeHandler(w http.ResponseWriter, r *http.Request, ads AdsDB) {
