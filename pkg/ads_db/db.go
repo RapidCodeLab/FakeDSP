@@ -109,7 +109,7 @@ func (db *AdsDB) GetNative(seatID, itemID int) string {
 
 func (db *AdsDB) GetBanner(seatID, itemID int) string {
 	a := db.seats[seatID].Banners[itemID]
-	return fmt.Sprintf("<a href=\"%s\"><img srec=\"%s\"/></a>",
+	return fmt.Sprintf("<a href=\"%s\"><img src=\"%s\"/></a>",
 		a.Link, a.Image)
 
 }
