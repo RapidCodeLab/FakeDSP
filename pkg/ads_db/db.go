@@ -3,8 +3,11 @@ package ads_db
 import (
 	"encoding/json"
 	"encoding/xml"
+	"errors"
 	"fmt"
+	"math/rand"
 	"os"
+	"time"
 
 	"github.com/haxqer/vast"
 	"github.com/prebid/openrtb/v17/native1"
@@ -31,8 +34,10 @@ type native struct {
 }
 
 type banner struct {
-	Image string
-	Link  string
+	Image  string
+	Link   string
+	Width  int64
+	Height int64
 }
 
 type video struct {
@@ -45,7 +50,6 @@ type audio struct {
 }
 
 func New(path string) (*AdsDB, error) {
-
 	f, err := os.Open(path)
 	if err != nil {
 		return nil, err
@@ -72,8 +76,12 @@ func (db *AdsDB) GetSeat(seatID int) string {
 	return db.seats[seatID].Name
 }
 
-func (db *AdsDB) GetNative(seatID, itemID int) string {
-	a := db.seats[seatID].Natives[itemID]
+func (db *AdsDB) GetNative(seatID int) string {
+	s := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(s)
+	a := db.seats[seatID].Natives[r.Intn(
+		len(db.seats[seatID].Natives)-1,
+	)]
 	nativeUnit := response.Response{
 		Ver: "1.2",
 		Link: response.Link{
@@ -107,11 +115,28 @@ func (db *AdsDB) GetNative(seatID, itemID int) string {
 	return string(nativeJSON)
 }
 
-func (db *AdsDB) GetBanner(seatID, itemID int) string {
-	a := db.seats[seatID].Banners[itemID]
-	return fmt.Sprintf("<a href=\"%s\"><img srec=\"%s\"/></a>",
-		a.Link, a.Image)
-
+func (db *AdsDB) GetBanner(
+	seatID int,
+	width,
+	height int64,
+) (string, error) {
+	banners := []banner{}
+	for _, b := range db.seats[seatID].Banners {
+		if b.Width == width &&
+			b.Height == height {
+			banners = append(banners, b)
+		}
+	}
+	if len(banners) < 1 {
+		return "", errors.New("no banners with requested sizes")
+	}
+	s := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(s)
+	a := banners[r.Intn(
+		len(banners)-1,
+	)]
+	return fmt.Sprintf("<a href=\"%s\"><img src=\"%s\"/></a>",
+		a.Link, a.Image), nil
 }
 
 func (db *AdsDB) GetVideo(seatID, itemID int) string {
@@ -120,11 +145,10 @@ func (db *AdsDB) GetVideo(seatID, itemID int) string {
 
 func (db *AdsDB) GetAudio(seatID, itemID int) string {
 	return ""
-	//return db.seats[seatID].Audios[itemID]
+	// return db.seats[seatID].Audios[itemID]
 }
 
 func prepareVAST(v video) string {
-
 	o := &vast.VAST{
 		Version: "3.0",
 		Ads: []vast.Ad{
@@ -163,5 +187,4 @@ func prepareVAST(v video) string {
 	vastXMLText, _ := xml.Marshal(o)
 
 	return string(vastXMLText)
-
 }
