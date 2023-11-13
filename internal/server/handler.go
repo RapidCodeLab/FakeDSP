@@ -51,7 +51,10 @@ func NativeHandler(w http.ResponseWriter, r *http.Request, ads AdsDB) {
 		}
 
 		if v.Banner != nil {
-			a := ads.GetBanner(0, i)
+			a, err := ads.GetBanner(0, *v.Banner.W, *v.Banner.H)
+			if err != nil {
+				continue
+			}
 			bid := openrtb2.Bid{
 				ID:    uuid.NewString(),
 				ImpID: v.ID,
@@ -70,7 +73,7 @@ func NativeHandler(w http.ResponseWriter, r *http.Request, ads AdsDB) {
 			}
 
 			for idx := 0; idx < int(native.PlcmtCnt); idx++ {
-				a := ads.GetNative(0, idx)
+				a := ads.GetNative(0)
 				bid := openrtb2.Bid{
 					ID:    uuid.NewString(),
 					ImpID: v.ID,

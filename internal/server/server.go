@@ -21,8 +21,8 @@ type ErrorResponse struct {
 
 type AdsDB interface {
 	GetSeat(seatID int) string
-	GetNative(seatID, itemID int) string
-	GetBanner(seatID, itemID int) string
+	GetNative(seatID int) string
+	GetBanner(seatID int, width, height int64) (string, error)
 	GetVideo(seatID, itemID int) string
 	GetAudio(seatID, itemID int) string
 }
@@ -51,7 +51,6 @@ func New(l Logger, c Config, db AdsDB) *server {
 }
 
 func (s *server) Start() error {
-
 	r := mux.NewRouter()
 
 	r.HandleFunc(nativePath, func(w http.ResponseWriter, r *http.Request) {
@@ -71,7 +70,6 @@ func (s *server) Start() error {
 	}
 
 	return s.http.Serve(l)
-
 }
 
 func randomPrice() float64 {
